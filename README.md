@@ -396,7 +396,7 @@
       </div>
       <div class="about-card">
         <div class="card-label">Background</div>
-        <div class="card-value">Embedded engineering <br/> C,C++</div>
+        <div class="card-value">Embedded engineering <br/> C, C++</div>
       </div>
     </div>
   </div>
