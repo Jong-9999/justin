@@ -604,37 +604,6 @@ RCC->AHB1ENR |= (1 &lt;&lt; 0);  // enable GPIOA clock</code></pre>
       <p>Once you get bytes flying across without a single HAL call, the abstraction layers start feeling a lot less magical and a lot more legible.</p>
     `
   },
-  {
-    id: 'why-c-still',
-    date: '2025-03-02',
-    tag: 'thoughts',
-    title: 'Why I still reach for C first',
-    body: `
-      <p>People ask why I still write C when there are memory-safe alternatives. My answer is usually: because it's honest.</p>
-      <p>C doesn't hide what's happening. Every malloc is visible. Every pointer dereference is deliberate. When something breaks, the bug is usually exactly where you think it is — you just have to look.</p>
-      <h2>The embedded argument</h2>
-      <p>On constrained hardware, C is still the lingua franca. Rust is gaining ground and I think that's genuinely good. But for now, if you want to talk to a peripheral without arguing with a toolchain, C is the path of least resistance.</p>
-      <h2>What it teaches you</h2>
-      <p>Writing C forces you to think about memory layout, alignment, and the actual cost of abstractions. That mental model transfers. When I read higher-level code now I have a better sense of what's expensive and what isn't.</p>
-      <p>None of this is an argument against other languages. It's an argument for spending time close to the metal before you float too far above it.</p>
-    `
-  },
-  {
-    id: 'first-pcb',
-    date: '2025-01-18',
-    tag: 'hardware',
-    title: 'First PCB spin: what I got wrong',
-    body: `
-      <p>Got my first PCB back from the fab last month. It mostly worked, which felt like a miracle. Here's a list of things I'll do differently next time.</p>
-      <h2>Decoupling caps too far from the IC</h2>
-      <p>I put the 100nF bypass caps a centimeter away from the power pins. They're supposed to be as close as physically possible — the trace inductance between the cap and the pin defeats the whole purpose. Move them first, route everything else around them.</p>
-      <h2>No test points</h2>
-      <p>When the board came back and one subsystem wasn't responding, I had nowhere to probe. Add test points on every supply rail and on signals you'll actually want to observe. They cost nothing and save hours.</p>
-      <h2>Silkscreen over pads</h2>
-      <p>Some of my reference designators overlapped with solderable pads. The fab stripped those silkscreen areas, which made the board look sloppy. Keep silkscreen off pads — most DRC rules catch this but mine was misconfigured.</p>
-      <p>Overall: more fun than I expected, more humbling than I expected. Spin two is in progress.</p>
-    `
-  }
 ];
 
 // ══════════════════════════════════════════
