@@ -604,6 +604,41 @@ RCC->AHB1ENR |= (1 &lt;&lt; 0);  // enable GPIOA clock</code></pre>
       <p>Once you get bytes flying across without a single HAL call, the abstraction layers start feeling a lot less magical and a lot more legible.</p>
     `
   },
+  {
+  id: 'eg1311-robot',
+  date: '2026-04-22',
+  tag: 'embedded',
+  title: 'EG1311: building the lightest robot possible',
+  body: `
+    <p>EG1311 is one of those classes where the constraints define everything. The task sounds simple on paper: build a robot using an Arduino Uno, an SG90 servo, and a set of geared motors. In practice, it turns into a game of grams.</p>
+
+    <h2>The goal</h2>
+    <p>The objective isn’t just to make a working robot — it’s to make the <em>lightest</em> one possible while still completing the task. That shifts your thinking immediately. Every component stops being “necessary” and starts being “worth its weight”.</p>
+
+    <h2>Core components</h2>
+    <p>The baseline setup usually includes an <code>Arduino Uno</code>, one or more DC geared motors for movement, and an <code>SG90</code> servo for actuation. These parts are fixed, but everything around them is up for optimization.</p>
+
+    <h2>Where the weight actually is</h2>
+    <p>It’s rarely the microcontroller that kills you — it’s everything else. Wheels, chassis, mounting hardware, wiring, and especially prototyping tools add up quickly. A breadboard alone can weigh more than multiple critical components combined.</p>
+
+    <h2>Cutting weight aggressively</h2>
+    <p>One of the easiest wins is ditching stock wheels. Laser cutting thin acrylic wheels gives you full control over thickness and diameter, and you can get them significantly lighter than off-the-shelf parts.</p>
+
+    <p>Geared motors are another target. Many come with multiple stages you don’t actually need. Removing unnecessary gears or even entire sections of the gearbox reduces both weight and rotational inertia — at the cost of torque, which you have to budget carefully.</p>
+
+    <p>The biggest shift is getting rid of the breadboard entirely. It’s convenient for prototyping, but completely unjustifiable in a weight-constrained build. Direct soldering, minimal wiring, and custom connections become the default.</p>
+
+    <blockquote>At some point you stop “building a robot” and start trimming it — every gram removed feels like progress.</blockquote>
+
+    <h2>Trade-offs</h2>
+    <p>Nothing comes for free. Lighter wheels might reduce traction. Fewer gear stages mean less torque. Removing structure can make the robot fragile. The challenge is finding the point where it’s just light enough without breaking or failing under load.</p>
+
+    <h2>What it teaches</h2>
+    <p>More than anything, the class forces you to think about efficiency in a physical sense. Not just code or algorithms, but material, structure, and necessity. You start questioning every component — and that mindset carries over to everything else you build.</p>
+
+    <p>By the end, the “best” robot isn’t the most complex one. It’s the one where nothing unnecessary remains.</p>
+  `
+}
 ];
 
 // ══════════════════════════════════════════
