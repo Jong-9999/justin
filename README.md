@@ -30,10 +30,8 @@
       --border:    #1f1f1a;
       --card:      #141410;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 14.5px; scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--fg);
@@ -42,8 +40,6 @@
       min-height: 100vh;
       transition: background var(--t), color var(--t);
     }
-
-    /* subtle grain */
     body::before {
       content: '';
       position: fixed;
@@ -54,14 +50,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 140px;
     }
-
-    .wrapper {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 4rem 1.6rem 7rem;
-    }
-
-    /* ── Nav ── */
+    .wrapper { max-width: 640px; margin: 0 auto; padding: 4rem 1.6rem 7rem; }
     nav {
       display: flex;
       justify-content: space-between;
@@ -79,7 +68,6 @@
       transition: color var(--t);
     }
     .nav-links a:hover, .nav-links a.active { color: var(--fg); }
-
     .theme-toggle {
       background: none;
       border: 1px solid var(--border);
@@ -92,13 +80,7 @@
       border-radius: 2px;
       transition: color var(--t), border-color var(--t), background var(--t);
     }
-    .theme-toggle:hover {
-      color: var(--fg);
-      border-color: var(--faint);
-      background: var(--card);
-    }
-
-    /* ── Glyph ── */
+    .theme-toggle:hover { color: var(--fg); border-color: var(--faint); background: var(--card); }
     .glyph {
       font-size: 0.82rem;
       color: var(--faint);
@@ -108,8 +90,6 @@
       opacity: 0;
       animation: fadeUp 0.45s 0.07s forwards;
     }
-
-    /* ── Name ── */
     h1 {
       font-family: var(--serif);
       font-size: clamp(2.4rem, 7vw, 3.5rem);
@@ -122,23 +102,9 @@
     }
     h1 em { font-style: italic; color: var(--accent2); }
     [data-theme="dark"] h1 em { color: var(--accent); }
-
-    /* ── Bio ── */
-    .bio {
-      margin-bottom: 2.8rem;
-      opacity: 0;
-      animation: fadeUp 0.45s 0.19s forwards;
-    }
-    .bio-intro {
-      font-size: 0.87rem;
-      color: var(--fg);
-      margin-bottom: 1.5rem;
-    }
-
-    .timeline {
-      border-top: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-    }
+    .bio { margin-bottom: 2.8rem; opacity: 0; animation: fadeUp 0.45s 0.19s forwards; }
+    .bio-intro { font-size: 0.87rem; color: var(--fg); margin-bottom: 1.5rem; }
+    .timeline { border-top: 1px solid var(--border); margin-bottom: 1.5rem; }
     .trow {
       display: grid;
       grid-template-columns: 7.5rem 1fr;
@@ -148,11 +114,7 @@
       font-size: 0.83rem;
       align-items: baseline;
     }
-    .tlabel {
-      color: var(--muted);
-      font-size: 0.74rem;
-      letter-spacing: 0.02em;
-    }
+    .tlabel { color: var(--muted); font-size: 0.74rem; letter-spacing: 0.02em; }
     .tdesc { color: var(--fg); }
     .tdesc a {
       color: var(--fg);
@@ -161,14 +123,8 @@
       text-underline-offset: 3px;
       transition: color var(--t), text-decoration-color var(--t);
     }
-    .tdesc a:hover {
-      color: var(--accent2);
-      text-decoration-color: var(--accent2);
-    }
-    [data-theme="dark"] .tdesc a:hover {
-      color: var(--accent);
-      text-decoration-color: var(--accent);
-    }
+    .tdesc a:hover { color: var(--accent2); text-decoration-color: var(--accent2); }
+    [data-theme="dark"] .tdesc a:hover { color: var(--accent); text-decoration-color: var(--accent); }
     .badge {
       display: inline-block;
       font-size: 0.65rem;
@@ -180,19 +136,9 @@
       margin-left: 0.5rem;
       vertical-align: middle;
     }
-    [data-theme="dark"] .badge {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .bio-note {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 500px;
-    }
+    [data-theme="dark"] .badge { border-color: var(--accent); color: var(--accent); }
+    .bio-note { font-size: 0.83rem; color: var(--muted); line-height: 1.65; max-width: 500px; }
     .bio-note strong { color: var(--fg); font-weight: 500; }
-
     .location {
       display: inline-flex;
       align-items: center;
@@ -205,15 +151,8 @@
       margin-top: 1rem;
       letter-spacing: 0.03em;
     }
-    .loc-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--accent2);
-      flex-shrink: 0;
-    }
+    .loc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
     [data-theme="dark"] .loc-dot { background: var(--accent); }
-
-    /* ── Section heading ── */
     h3 {
       font-family: var(--mono);
       font-size: 0.69rem;
@@ -227,14 +166,7 @@
       align-items: center;
       gap: 0.8rem;
     }
-    h3::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── Contact ── */
+    h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .contact {
       display: flex;
       flex-wrap: wrap;
@@ -261,17 +193,8 @@
     .contact a:hover::after { background: var(--accent2); }
     [data-theme="dark"] .contact a:hover { color: var(--accent); }
     [data-theme="dark"] .contact a:hover::after { background: var(--accent); }
-
-    /* ── About cards ── */
-    .about-section {
-      opacity: 0;
-      animation: fadeUp 0.45s 0.34s forwards;
-    }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
+    .about-section { opacity: 0; animation: fadeUp 0.45s 0.34s forwards; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     @media (max-width: 480px) {
       .about-grid { grid-template-columns: 1fr; }
       .trow { grid-template-columns: 5.5rem 1fr; gap: 0.5rem; }
@@ -285,20 +208,8 @@
       transition: border-color var(--t);
     }
     .about-card:hover { border-color: var(--faint); }
-    .card-label {
-      font-size: 0.67rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 0.3rem;
-    }
-    .card-value {
-      font-size: 0.84rem;
-      color: var(--fg);
-      line-height: 1.55;
-    }
-
-    /* ── Footer ── */
+    .card-label { font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.3rem; }
+    .card-value { font-size: 0.84rem; color: var(--fg); line-height: 1.55; }
     footer {
       margin-top: 4rem;
       padding-top: 1.4rem;
@@ -309,23 +220,121 @@
       opacity: 0;
       animation: fadeUp 0.45s 0.44s forwards;
     }
-
-    /* ── Keyframes ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(9px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     ::selection { background: var(--accent2); color: #fff; }
     [data-theme="dark"] ::selection { background: var(--accent); color: #0d0d0b; }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── Konami overlay ── */
+    #konami-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: var(--bg);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    #konami-overlay.active {
+      display: flex;
+      animation: konamiFadeIn 0.3s ease forwards;
+    }
+    @keyframes konamiFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .konami-terminal {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 2rem 2.4rem;
+      border-radius: 2px;
+      max-width: 380px;
+      width: 90%;
+    }
+    .konami-header {
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .konami-header::before { content: '//'; color: var(--accent2); }
+    [data-theme="dark"] .konami-header::before { color: var(--accent); }
+    .konami-code-display {
+      font-size: 1.05rem;
+      letter-spacing: 0.16em;
+      color: var(--accent2);
+      margin-bottom: 1.4rem;
+      line-height: 2;
+    }
+    [data-theme="dark"] .konami-code-display { color: var(--accent); }
+    .konami-msg { font-size: 0.8rem; color: var(--fg); line-height: 1.8; margin-bottom: 1.4rem; }
+    .konami-msg .prompt { color: var(--muted); margin-right: 0.45rem; }
+    .konami-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.28rem 0.65rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: color var(--t), border-color var(--t), background var(--t);
+    }
+    .konami-close:hover { color: var(--fg); border-color: var(--faint); background: var(--bg); }
+
+    /* Progress dots */
+    #konami-progress {
+      position: fixed;
+      bottom: 1.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 200;
+    }
+    #konami-progress.visible { opacity: 1; }
+    .kp-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .kp-dot.lit { background: var(--accent2); border-color: var(--accent2); }
+    [data-theme="dark"] .kp-dot.lit { background: var(--accent); border-color: var(--accent); }
+
+    /* Hint */
+    #konami-hint {
+      position: fixed;
+      bottom: 1.4rem;
+      right: 1.6rem;
+      font-size: 0.63rem;
+      letter-spacing: 0.08em;
+      color: var(--faint);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 200;
+      font-family: var(--mono);
+    }
+    #konami-hint.visible { opacity: 1; }
   </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- Nav -->
   <nav>
     <div class="nav-links">
       <a href="#" class="active">Home</a>
@@ -336,15 +345,10 @@
     </button>
   </nav>
 
-
-
-  <!-- Name -->
   <h1>Justin <em>Ong</em></h1>
 
-  <!-- Bio -->
   <div class="bio">
     <p class="bio-intro">I'm Justin. Some history:</p>
-
     <div class="timeline">
       <div class="trow">
         <span class="tlabel">Current</span>
@@ -359,18 +363,13 @@
         <span class="tdesc">Student from <a href="https://nus.edu.sg/" target="_blank" rel="noopener">National University of Singapore</a><br/> Computer Engineering<span class="badge">now</span></span>
       </div>
     </div>
-
-    <p class="bio-note">
-      I like building things.
-    </p>
-
+    <p class="bio-note">I like building things.</p>
     <div class="location">
       <span class="loc-dot"></span>
       Singapore
     </div>
   </div>
 
-  <!-- Contact -->
   <h3>Get in touch</h3>
   <div class="contact">
     <a href="mailto:ongjunyin@gmail.com">ongjunyin@gmail.com</a>
@@ -378,7 +377,6 @@
     <a href="https://www.linkedin.com/in/justin-ong-a69382229/" target="_blank" rel="noopener">linkedin</a>
   </div>
 
-  <!-- About -->
   <h3>About</h3>
   <div class="about-section">
     <div class="about-grid">
@@ -388,7 +386,7 @@
       </div>
       <div class="about-card">
         <div class="card-label">Interests</div>
-        <div class="card-value">Embedded engineering <br/></div>
+        <div class="card-value">Embedded engineering</div>
       </div>
       <div class="about-card">
         <div class="card-label">Based in</div>
@@ -396,15 +394,45 @@
       </div>
       <div class="about-card">
         <div class="card-label">Background</div>
-        <div class="card-value">Embedded engineering <br/> C, C++</div>
+        <div class="card-value">Embedded engineering<br/>C, C++</div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>© 2025 Justin Ong</footer>
-
 </div>
+
+<!-- Konami overlay -->
+<div id="konami-overlay">
+  <div class="konami-terminal">
+    <div class="konami-header">cheat code detected</div>
+    <div class="konami-code-display">↑ ↑ ↓ ↓ ← → ← → B A</div>
+    <div class="konami-msg">
+      <span class="prompt">$</span>you found it.<br/>
+      <span class="prompt">$</span>not sure what you expected,<br/>
+      <span class="prompt">$</span>but here we are.
+    </div>
+    <button class="konami-close" onclick="closeKonami()">[ close ]</button>
+  </div>
+</div>
+
+<!-- Progress dots -->
+<div id="konami-progress">
+  <div class="kp-dot" id="kp0"></div>
+  <div class="kp-dot" id="kp1"></div>
+  <div class="kp-dot" id="kp2"></div>
+  <div class="kp-dot" id="kp3"></div>
+  <div class="kp-dot" id="kp4"></div>
+  <div class="kp-dot" id="kp5"></div>
+  <div class="kp-dot" id="kp6"></div>
+  <div class="kp-dot" id="kp7"></div>
+  <div class="kp-dot" id="kp8"></div>
+  <div class="kp-dot" id="kp9"></div>
+</div>
+
+<!-- Subtle hint -->
+<div id="konami-hint">↑↑↓↓←→←→BA</div>
+
 <script>
   function toggleTheme() {
     const html = document.documentElement;
@@ -412,6 +440,66 @@
     html.setAttribute('data-theme', dark ? 'light' : 'dark');
     document.getElementById('theme-label').textContent = dark ? 'Dark' : 'Light';
   }
+
+  const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let idx = 0;
+  let resetTimer = null;
+
+  // Hint fades in after 10s, fades out after 3.5s
+  setTimeout(() => {
+    const hint = document.getElementById('konami-hint');
+    hint.classList.add('visible');
+    setTimeout(() => hint.classList.remove('visible'), 3500);
+  }, 10000);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === KONAMI[idx]) {
+      clearTimeout(resetTimer);
+      document.getElementById('konami-progress').classList.add('visible');
+      document.getElementById(`kp${idx}`).classList.add('lit');
+      idx++;
+
+      if (idx === KONAMI.length) {
+        setTimeout(triggerKonami, 150);
+        return;
+      }
+      resetTimer = setTimeout(resetKonami, 2500);
+    } else {
+      resetKonami();
+      // Check if pressed key restarts the sequence
+      if (e.key === KONAMI[0]) {
+        idx = 1;
+        document.getElementById('konami-progress').classList.add('visible');
+        document.getElementById('kp0').classList.add('lit');
+        resetTimer = setTimeout(resetKonami, 2500);
+      }
+    }
+  });
+
+  function resetKonami() {
+    idx = 0;
+    document.getElementById('konami-progress').classList.remove('visible');
+    for (let i = 0; i < 10; i++) document.getElementById(`kp${i}`).classList.remove('lit');
+  }
+
+  function triggerKonami() {
+    resetKonami();
+    document.getElementById('konami-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeKonami() {
+    document.getElementById('konami-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('konami-overlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('konami-overlay')) closeKonami();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeKonami();
+  });
 </script>
 </body>
 </html>
