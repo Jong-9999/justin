@@ -1,782 +1,1579 @@
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Justin Ong | Computer Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    :root {
-      --bg:        #f7f4ef;
-      --fg:        #18160f;
-      --muted:     #7a7368;
-      --faint:     #b8b2a8;
-      --accent:    #1a3a2a;
-      --accent2:   #F37022;
-      --accent3:   #3d7a5c;
-      --border:    #dedad2;
-      --card:      #efecea;
-      --mono:      'IBM Plex Mono', 'Courier New', monospace;
-      --serif:     'Instrument Serif', Georgia, serif;
-      --t:         0.22s ease;
-    }
-    [data-theme="dark"] {
-      --bg:        #0d0d0b;
-      --fg:        #e8e3d8;
-      --muted:     #807870;
-      --faint:     #2e2e28;
-      --accent:    #5cad84;
-      --accent2:   #F37022;
-      --accent3:   #3d7a5c;
-      --border:    #1f1f1a;
-      --card:      #141410;
-    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 14.5px; scroll-behavior: smooth; }
+
+    :root {
+      --bg: #050A15;
+      --surface: #0D1629;
+      --surface2: #111827;
+      --cyan: #00D4FF;
+      --blue: #3B82F6;
+      --green: #00FF88;
+      --text: #E2E8F0;
+      --muted: #8892A4;
+      --border: rgba(0, 212, 255, 0.15);
+      --glass: rgba(13, 22, 41, 0.75);
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
       background: var(--bg);
-      color: var(--fg);
-      font-family: var(--mono);
-      line-height: 1.7;
-      min-height: 100vh;
-      transition: background var(--t), color var(--t);
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 100;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 140px;
-    }
-    .wrapper { max-width: 640px; margin: 0 auto; padding: 4rem 1.6rem 7rem; }
-
-    /* ── Nav ── */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 3.8rem;
-      opacity: 0;
-      animation: fadeUp 0.45s 0s forwards;
-    }
-    .nav-links { display: flex; gap: 1.4rem; }
-    .nav-links a {
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      transition: color var(--t);
-      cursor: pointer;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--fg); }
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      padding: 0.28rem 0.65rem;
-      cursor: pointer;
-      border-radius: 2px;
-      transition: color var(--t), border-color var(--t), background var(--t);
-    }
-    .theme-toggle:hover { color: var(--fg); border-color: var(--faint); background: var(--card); }
-
-    /* ── Typography ── */
-    h1 {
-      font-family: var(--serif);
-      font-size: clamp(2.4rem, 7vw, 3.5rem);
-      font-weight: 400;
-      line-height: 1.08;
-      letter-spacing: -0.015em;
-      margin-bottom: 2.4rem;
-      opacity: 0;
-      animation: fadeUp 0.45s 0.13s forwards;
-    }
-    h1 em { font-style: italic; color: var(--accent2); }
-    [data-theme="dark"] h1 em { color: var(--accent); }
-    h3 {
-      font-family: var(--mono);
-      font-size: 0.69rem;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      margin-top: 2.8rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    /* ── Bio / Home ── */
-    .bio { margin-bottom: 2.8rem; opacity: 0; animation: fadeUp 0.45s 0.19s forwards; }
-    .bio-intro { font-size: 0.87rem; color: var(--fg); margin-bottom: 1.5rem; }
-    .timeline { border-top: 1px solid var(--border); margin-bottom: 1.5rem; }
-    .trow {
-      display: grid;
-      grid-template-columns: 7.5rem 1fr;
-      gap: 1rem;
-      padding: 0.62rem 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.83rem;
-      align-items: baseline;
-    }
-    .tlabel { color: var(--muted); font-size: 0.74rem; letter-spacing: 0.02em; }
-    .tdesc { color: var(--fg); }
-    .tdesc a {
-      color: var(--fg);
-      text-decoration: underline;
-      text-decoration-color: var(--border);
-      text-underline-offset: 3px;
-      transition: color var(--t), text-decoration-color var(--t);
-    }
-    .tdesc a:hover { color: var(--accent2); text-decoration-color: var(--accent2); }
-    [data-theme="dark"] .tdesc a:hover { color: var(--accent); text-decoration-color: var(--accent); }
-    .badge {
-      display: inline-block;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      padding: 0.08rem 0.4rem;
-      border: 1px solid var(--accent3);
-      color: var(--accent3);
-      border-radius: 2px;
-      margin-left: 0.5rem;
-      vertical-align: middle;
-    }
-    [data-theme="dark"] .badge { border-color: var(--accent); color: var(--accent); }
-    .bio-note { font-size: 0.83rem; color: var(--muted); line-height: 1.65; max-width: 500px; }
-    .location {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.74rem;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.22rem 0.6rem;
-      border-radius: 2px;
-      margin-top: 1rem;
-      letter-spacing: 0.03em;
-    }
-    .loc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; }
-    [data-theme="dark"] .loc-dot { background: var(--accent); }
-    .contact {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.45s 0.27s forwards;
-    }
-    .contact a {
-      font-size: 0.83rem;
-      color: var(--fg);
-      text-decoration: none;
-      position: relative;
-      padding-bottom: 2px;
-    }
-    .contact a::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 1px;
-      background: var(--border);
-      transition: background var(--t);
-    }
-    .contact a:hover { color: var(--accent2); }
-    .contact a:hover::after { background: var(--accent2); }
-    [data-theme="dark"] .contact a:hover { color: var(--accent); }
-    [data-theme="dark"] .contact a:hover::after { background: var(--accent); }
-    .about-section { opacity: 0; animation: fadeUp 0.45s 0.34s forwards; }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .about-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 1rem 1.1rem;
-      border-radius: 2px;
-      transition: border-color var(--t);
-    }
-    .about-card:hover { border-color: var(--faint); }
-    .card-label { font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.3rem; }
-    .card-value { font-size: 0.84rem; color: var(--fg); line-height: 1.55; }
-
-    /* ── Footer ── */
-    footer {
-      margin-top: 4rem;
-      padding-top: 1.4rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.71rem;
-      color: var(--faint);
-      letter-spacing: 0.04em;
-      opacity: 0;
-      animation: fadeUp 0.45s 0.44s forwards;
-    }
-
-    /* ── Page views ── */
-    .page { display: none; }
-    .page.active { display: block; }
-
-    /* ── Notes list ── */
-    .notes-header {
-      opacity: 0;
-      animation: fadeUp 0.45s 0.07s forwards;
-    }
-    .notes-title {
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.6rem;
-    }
-    .notes-title em { font-style: italic; color: var(--accent2); }
-    [data-theme="dark"] .notes-title em { color: var(--accent); }
-    .notes-subtitle {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 2.8rem;
-    }
-
-    .notes-list {
-      border-top: 1px solid var(--border);
-      opacity: 0;
-      animation: fadeUp 0.45s 0.18s forwards;
-    }
-    .note-row {
-      display: grid;
-      grid-template-columns: 6.5rem 1fr auto;
-      gap: 1rem;
-      padding: 0.9rem 0;
-      border-bottom: 1px solid var(--border);
-      align-items: baseline;
-      cursor: pointer;
-      transition: background var(--t);
-      border-radius: 2px;
-    }
-    .note-row:hover .note-row-title { color: var(--accent2); }
-    [data-theme="dark"] .note-row:hover .note-row-title { color: var(--accent); }
-    .note-row-date { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; white-space: nowrap; }
-    .note-row-title { font-size: 0.87rem; color: var(--fg); transition: color var(--t); }
-    .note-row-tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.06em;
-      padding: 0.06rem 0.38rem;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 2px;
-      white-space: nowrap;
-    }
-    .notes-empty {
-      padding: 2.5rem 0;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    /* ── Single note view ── */
-    #page-note { display: none; }
-    #page-note.active { display: block; }
-
-    .note-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.74rem;
-      color: var(--muted);
-      cursor: pointer;
-      margin-bottom: 2.4rem;
-      transition: color var(--t);
-      opacity: 0;
-      animation: fadeUp 0.35s 0s forwards;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-    }
-    .note-back:hover { color: var(--fg); }
-    .note-back::before { content: '←'; }
-
-    .note-meta {
-      opacity: 0;
-      animation: fadeUp 0.35s 0.08s forwards;
-      margin-bottom: 0.5rem;
-    }
-    .note-meta-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-    .note-meta-date { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; }
-    .note-meta-tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.06em;
-      padding: 0.06rem 0.38rem;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 2px;
-    }
-
-    .note-view-title {
-      font-family: var(--serif);
-      font-size: clamp(1.7rem, 5vw, 2.4rem);
-      font-weight: 400;
-      line-height: 1.12;
-      letter-spacing: -0.01em;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.35s 0.13s forwards;
-    }
-
-    .note-body {
-      font-size: 0.88rem;
-      line-height: 1.85;
-      color: var(--fg);
-      opacity: 0;
-      animation: fadeUp 0.35s 0.2s forwards;
-      max-width: 560px;
-    }
-    .note-body p { margin-bottom: 1.2rem; }
-    .note-body p:last-child { margin-bottom: 0; }
-    .note-body h2 {
-      font-family: var(--serif);
-      font-size: 1.15rem;
-      font-weight: 400;
-      margin: 1.8rem 0 0.5rem;
-      color: var(--fg);
-    }
-    .note-body code {
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 0.1rem 0.35rem;
-      border-radius: 2px;
-    }
-    .note-body pre {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 1rem 1.2rem;
-      margin: 1.2rem 0;
-      overflow-x: auto;
-      font-size: 0.8rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
       line-height: 1.6;
-    }
-    .note-body pre code { background: none; border: none; padding: 0; }
-    .note-body a {
-      color: var(--fg);
-      text-underline-offset: 3px;
-      text-decoration-color: var(--border);
-    }
-    .note-body a:hover { color: var(--accent2); }
-    [data-theme="dark"] .note-body a:hover { color: var(--accent); }
-    .note-body blockquote {
-      border-left: 2px solid var(--border);
-      padding-left: 1rem;
-      color: var(--muted);
-      margin: 1.2rem 0;
-    }
-    .note-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 2.4rem 0;
-      opacity: 0;
-      animation: fadeUp 0.35s 0.25s forwards;
+      overflow-x: hidden;
     }
 
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(9px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 480px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .trow { grid-template-columns: 5.5rem 1fr; gap: 0.5rem; }
-      .wrapper { padding: 2.5rem 1.2rem 5rem; }
-      .note-row { grid-template-columns: 5.5rem 1fr; }
-      .note-row-tag { display: none; }
-    }
-
-    ::selection { background: var(--accent2); color: #fff; }
-    [data-theme="dark"] ::selection { background: var(--accent); color: #0d0d0b; }
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-    /* ── Konami overlay ── */
-    #konami-overlay {
-      display: none;
+    /* ── Canvas background ── */
+    #circuit-canvas {
       position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: var(--bg);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed;
+      top: 16px; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1000px;
+      z-index: 100;
+      background: rgba(5, 10, 21, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--cyan); }
+
+    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--text); background: rgba(0, 212, 255, 0.08); }
+    .nav-links a.active { color: var(--cyan); background: rgba(0, 212, 255, 0.1); }
+
+    .nav-cta {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--bg) !important;
+      background: var(--cyan) !important;
+      padding: 7px 18px !important;
+      border-radius: 20px !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── Sections ── */
+    section { padding: 100px 0; position: relative; z-index: 1; }
+
+    /* ── Glass cards ── */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .card:hover { border-color: rgba(0, 212, 255, 0.35); transform: translateY(-2px); }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--cyan);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 48px;
+      line-height: 1.15;
+    }
+    h2 .accent { color: var(--cyan); }
+
+    /* ── Fade-in animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ════════════════════════
+       HERO
+    ════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 120px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--cyan);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .hero-name .glow {
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+    }
+
+    .hero-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    #typewriter { color: var(--cyan); }
+    #typewriter::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 460px;
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cyan);
+      color: var(--bg);
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--cyan); background: rgba(0, 212, 255, 0.05); }
+
+    /* Hero right -chip visual */
+    .hero-visual {
+      display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      position: relative;
     }
-    #konami-overlay.active { display: flex; animation: konamiFadeIn 0.3s ease forwards; }
-    @keyframes konamiFadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .konami-terminal {
-      border: 1px solid var(--border);
-      background: var(--card);
-      padding: 2rem 2.4rem;
-      border-radius: 2px;
-      max-width: 380px;
-      width: 90%;
+
+    .chip-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
     }
-    .konami-header {
-      font-size: 0.67rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
+
+    .chip-outer {
+      width: 100%; height: 100%;
+      border: 1.5px solid rgba(0, 212, 255, 0.3);
+      border-radius: 18px;
+      background: rgba(13, 22, 41, 0.9);
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      animation: chip-glow 3s ease-in-out infinite;
     }
-    .konami-header::before { content: '//'; color: var(--accent2); }
-    [data-theme="dark"] .konami-header::before { color: var(--accent); }
-    .konami-code-display { font-size: 1.05rem; letter-spacing: 0.16em; color: var(--accent2); margin-bottom: 1.4rem; line-height: 2; }
-    [data-theme="dark"] .konami-code-display { color: var(--accent); }
-    .konami-msg { font-size: 0.8rem; color: var(--fg); line-height: 1.8; margin-bottom: 1.4rem; }
-    .konami-msg .prompt { color: var(--muted); margin-right: 0.45rem; }
-    .konami-close {
-      background: none; border: 1px solid var(--border); color: var(--muted);
-      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
-      padding: 0.28rem 0.65rem; cursor: pointer; border-radius: 2px;
-      transition: color var(--t), border-color var(--t), background var(--t);
+
+    @keyframes chip-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(0, 212, 255, 0.25), 0 0 100px rgba(0, 212, 255, 0.08); }
     }
-    .konami-close:hover { color: var(--fg); border-color: var(--faint); background: var(--bg); }
-    #konami-progress {
-      position: fixed; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 6px; opacity: 0; transition: opacity 0.3s ease;
-      pointer-events: none; z-index: 200;
+
+    .chip-pins {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-    #konami-progress.visible { opacity: 1; }
-    .kp-dot { width: 5px; height: 5px; border-radius: 50%; border: 1px solid var(--border); transition: background 0.15s ease, border-color 0.15s ease; }
-    .kp-dot.lit { background: var(--accent2); border-color: var(--accent2); }
-    [data-theme="dark"] .kp-dot.lit { background: var(--accent); border-color: var(--accent); }
-    #konami-hint {
-      position: fixed; bottom: 1.4rem; right: 1.6rem; font-size: 0.63rem;
-      letter-spacing: 0.08em; color: var(--faint); opacity: 0; transition: opacity 0.5s ease;
-      pointer-events: none; z-index: 200; font-family: var(--mono);
+    .chip-pins.left { left: -20px; align-items: flex-end; }
+    .chip-pins.right { right: -20px; align-items: flex-start; }
+    .chip-pin {
+      width: 20px; height: 5px;
+      background: rgba(0, 212, 255, 0.5);
+      border-radius: 2px;
+      position: relative;
     }
-    #konami-hint.visible { opacity: 1; }
+    .chip-pin::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100%;
+      background: var(--cyan);
+      border-radius: 2px;
+      animation: pin-pulse 2s ease-in-out infinite;
+    }
+    .chip-pins.left .chip-pin::after { right: 0; animation-delay: calc(var(--i) * 0.15s); }
+    .chip-pins.right .chip-pin::after { left: 0; animation-delay: calc(var(--i) * 0.15s + 0.5s); }
+
+    @keyframes pin-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .chip-inner {
+      width: 160px; height: 160px;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(5, 10, 21, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .chip-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      opacity: 0.6;
+    }
+
+    .chip-initials {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+    }
+
+    .chip-model {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .chip-corners span {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-color: var(--cyan);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .chip-corners span:nth-child(1) { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .chip-corners span:nth-child(2) { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+    .chip-corners span:nth-child(3) { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+    .chip-corners span:nth-child(4) { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+    .orbit-ring {
+      position: absolute;
+      border: 1px solid rgba(0, 212, 255, 0.08);
+      border-radius: 50%;
+      animation: orbit-spin 20s linear infinite;
+    }
+    .orbit-ring:nth-child(1) { width: 320px; height: 320px; animation-duration: 18s; }
+    .orbit-ring:nth-child(2) { width: 380px; height: 380px; animation-duration: 24s; animation-direction: reverse; }
+    .orbit-ring::after {
+      content: '';
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    @keyframes orbit-spin { to { transform: rotate(360deg); } }
+
+    /* ════════════════════════
+       ABOUT
+    ════════════════════════ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: rgba(0, 212, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ════════════════════════
+       EXPERIENCE / EDUCATION
+    ════════════════════════ */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+      opacity: 0.3;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 32px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 6px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 50px;
+      background: rgba(0, 212, 255, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .timeline-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .timeline-org {
+      font-size: 0.88rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ════════════════════════
+       SKILLS
+    ════════════════════════ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .skill-card:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .skill-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .skill-icon svg { width: 20px; height: 20px; }
+
+    .skill-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .skill-level {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .skill-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* ════════════════════════
+       AWARDS
+    ════════════════════════ */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .award-card {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .award-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .award-icon svg { width: 24px; height: 24px; color: var(--cyan); }
+
+    .award-issuer {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .award-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .award-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ════════════════════════
+       PROJECTS
+    ════════════════════════ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card { cursor: default; }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .project-icon {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-icon svg { width: 22px; height: 22px; }
+
+    .project-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .project-link:hover { color: var(--cyan); border-color: rgba(0, 212, 255, 0.4); background: rgba(0, 212, 255, 0.06); }
+    .project-link svg { width: 14px; height: 14px; }
+
+    .project-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: 50px;
+      background: rgba(0, 212, 255, 0.07);
+      border: 1px solid rgba(0, 212, 255, 0.18);
+      color: var(--cyan);
+    }
+
+    /* ════════════════════════
+       GITHUB
+    ════════════════════════ */
+    .github-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .commits-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .commit-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .commit-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .commit-dot {
+      flex-shrink: 0;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      margin-top: 6px;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+    }
+
+    .commit-msg {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .commit-repo {
+      font-size: 0.7rem;
+      color: var(--cyan);
+      margin-top: 2px;
+    }
+    .commit-time {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .github-loading {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .chart-wrapper { position: relative; height: 200px; }
+
+    .github-stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .gh-stat {
+      flex: 1;
+      background: rgba(0, 212, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .gh-stat-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .gh-stat-label { font-size: 0.7rem; color: var(--muted); }
+
+    .gh-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      text-decoration: none;
+      margin-top: 12px;
+      transition: opacity 0.2s;
+    }
+    .gh-link:hover { opacity: 0.75; }
+
+    /* ════════════════════════
+       CONTACT
+    ════════════════════════ */
+    #contact { padding-bottom: 80px; }
+
+    .contact-inner {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .contact-inner h2 { margin-bottom: 16px; }
+    .contact-inner p { color: var(--muted); margin-bottom: 36px; font-size: 0.95rem; }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 24px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      cursor: pointer;
+    }
+    .contact-btn:hover { transform: translateY(-2px); opacity: 0.85; }
+    .contact-btn.primary { background: var(--cyan); color: var(--bg); }
+    .contact-btn.secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); }
+    .contact-btn.gh { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: var(--text); }
+    .contact-btn svg { width: 18px; height: 18px; }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 0.78rem;
+      position: relative;
+      z-index: 1;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .github-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 10px 18px; }
+      .nav-links { display: none; }
+      section { padding: 72px 0; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body>
-<div class="wrapper">
 
-  <nav>
-    <div class="nav-links">
-      <a id="nav-home" class="active" onclick="showPage('home')">Home</a>
-      <a id="nav-notes" onclick="showPage('notes')">Notes</a>
+<!-- ── Circuit Canvas ── -->
+<canvas id="circuit-canvas"></canvas>
+
+<!-- ── Navbar ── -->
+<nav>
+  <a class="nav-logo" href="#hero">JO<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#github">GitHub</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════
+     HERO
+════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content fade-up">
+        <div class="hero-badge">Available for Opportunities</div>
+        <h1 class="hero-name">
+          Justin<br><span class="glow">Ong</span>
+        </h1>
+        <p class="hero-title">
+          <span id="typewriter"></span>
+        </p>
+        <p class="hero-desc">
+          Computer Engineering student at NUS, building at the intersection of software and hardware. Currently Head Developer at Apeiron Holdings.
+        </p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary">
+            Get in Touch
+          </a>
+          <a href="https://github.com/Jong-9999" target="_blank" rel="noopener" class="btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual fade-up">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="chip-container">
+          <div class="chip-outer">
+            <div class="chip-corners">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="chip-pins left">
+              <div class="chip-pin" style="--i:0"></div>
+              <div class="chip-pin" style="--i:1"></div>
+              <div class="chip-pin" style="--i:2"></div>
+              <div class="chip-pin" style="--i:3"></div>
+              <div class="chip-pin" style="--i:4"></div>
+            </div>
+            <div class="chip-inner">
+              <div class="chip-logo">NUS CEG</div>
+              <div class="chip-initials">JO</div>
+              <div class="chip-model">REV 2025</div>
+            </div>
+            <div class="chip-pins right">
+              <div class="chip-pin" style="--i:0"></div>
+              <div class="chip-pin" style="--i:1"></div>
+              <div class="chip-pin" style="--i:2"></div>
+              <div class="chip-pin" style="--i:3"></div>
+              <div class="chip-pin" style="--i:4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()">
-      <span id="theme-label">Dark</span>
-    </button>
-  </nav>
+  </div>
+</section>
 
-  <!-- ══ HOME PAGE ══ -->
-  <div id="page-home" class="page active">
-    <h1>Justin <em>Ong</em></h1>
-    <div class="bio">
-      <p class="bio-intro">I'm Justin. Some history:</p>
+<!-- ════════════════════════
+     ABOUT
+════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-label fade-up">// about.me</div>
+    <h2 class="fade-up">Building at the <span class="accent">Hardware-Software</span> Interface</h2>
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <p>
+          I'm a Computer Engineering student at the National University of Singapore, specialising in the intersection of low-level hardware programming and modern software systems. My passion lies in baremetal development -writing code that speaks directly to the machine.
+        </p>
+        <p>
+          Currently serving as Head Developer at Apeiron Holdings, a multi-strategy hedge fund in Singapore, where I architect and build the firm's core technology infrastructure. I bring the same rigour from embedded systems into high-performance financial software.
+        </p>
+        <p>
+          Outside of work and academia, I explore competitive engineering challenges. Most recently I earned 2nd place at the Airbus Future of Flight Challenge 2025.
+        </p>
+      </div>
+      <div class="stat-grid fade-up">
+        <div class="stat-card card">
+          <span class="stat-value">2</span>
+          <div class="stat-label">Years of Military Service</div>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">2nd</span>
+          <div class="stat-label">Airbus Challenge Place</div>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">NUS</span>
+          <div class="stat-label">School of Computing</div>
+        </div>
+        <div class="stat-card card">
+          <span class="stat-value">SG</span>
+          <div class="stat-label">Based in Singapore</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     EXPERIENCE
+════════════════════════ -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label fade-up">// work.experience</div>
+    <h2 class="fade-up">Professional <span class="accent">Experience</span></h2>
+    <div class="card fade-up">
       <div class="timeline">
-        <div class="trow">
-          <span class="tlabel">Current</span>
-          <span class="tdesc">
-            <a href="https://apeironholdings.asia/" target="_blank" rel="noopener">Apeiron Holdings</a>
-            — Developer <span class="badge">now</span>
-          </span>
+        <div class="timeline-item">
+          <div class="timeline-meta">
+            <span class="timeline-tag">Full-time</span>
+            <span class="timeline-date">Mar 2026 - Present</span>
+          </div>
+          <div class="timeline-title">Head Developer</div>
+          <div class="timeline-org">Apeiron Holdings · Singapore</div>
+          <div class="timeline-desc">
+            Leading the technology development at a multi-strategy hedge fund. Responsible for architecting and building core trading infrastructure, internal tooling, and data pipelines that power the firm's investment strategies.
+          </div>
         </div>
-        <div class="trow">
-          <span class="tlabel">Current</span>
-          <span class="tdesc">Student from <a href="https://nus.edu.sg/" target="_blank" rel="noopener">National University of Singapore</a><br/>Computer Engineering<span class="badge">now</span></span>
-        </div>
-      </div>
-      <p class="bio-note">I like building things.</p>
-      <div class="location"><span class="loc-dot"></span>Singapore</div>
-    </div>
-
-    <h3>Get in touch</h3>
-    <div class="contact">
-      <a href="mailto:ongjunyin@gmail.com">ongjunyin@gmail.com</a>
-      <a href="https://github.com/Jong-9999" target="_blank" rel="noopener">github</a>
-      <a href="https://www.linkedin.com/in/justin-ong-a69382229/" target="_blank" rel="noopener">linkedin</a>
-    </div>
-
-    <h3>About</h3>
-    <div class="about-section">
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="card-label">Current role</div>
-          <div class="card-value">Apeiron Holdings<br/>Technology</div>
-        </div>
-        <div class="about-card">
-          <div class="card-label">Interests</div>
-          <div class="card-value">Embedded engineering</div>
-        </div>
-        <div class="about-card">
-          <div class="card-label">Based in</div>
-          <div class="card-value">Singapore, SG</div>
-        </div>
-        <div class="about-card">
-          <div class="card-label">Background</div>
-          <div class="card-value">Embedded engineering<br/>C, C++</div>
+        <div class="timeline-item" style="margin-bottom: 0;">
+          <div class="timeline-meta">
+            <span class="timeline-tag">Full-time</span>
+            <span class="timeline-date">Jan 2023 - Jan 2025</span>
+          </div>
+          <div class="timeline-title">Admin Specialist</div>
+          <div class="timeline-org">Singapore Armed Forces · Singapore, On-site</div>
+          <div class="timeline-desc">
+            Served as an Administrative Specialist in the Singapore Army during National Service. Developed strong operational discipline, leadership under pressure, and attention to procedural detail across 2 years of full-time service.
+          </div>
         </div>
       </div>
     </div>
-    <footer>© 2025 Justin Ong</footer>
   </div>
+</section>
 
-  <!-- ══ NOTES LIST PAGE ══ -->
-  <div id="page-notes" class="page">
-    <div class="notes-header">
-      <div class="notes-title">Notes <em>&</em> writing</div>
-      <div class="notes-subtitle">Occasional thoughts on building things.</div>
-    </div>
-    <div class="notes-list" id="notes-list-container"></div>
-    <footer style="margin-top:4rem;padding-top:1.4rem;border-top:1px solid var(--border);font-size:0.71rem;color:var(--faint);letter-spacing:0.04em;">© 2025 Justin Ong</footer>
-  </div>
-
-  <!-- ══ SINGLE NOTE PAGE ══ -->
-  <div id="page-note" class="page">
-    <a class="note-back" onclick="showPage('notes')">back to notes</a>
-    <div class="note-meta">
-      <div class="note-meta-row">
-        <span class="note-meta-date" id="note-view-date"></span>
-        <span class="note-meta-tag" id="note-view-tag"></span>
+<!-- ════════════════════════
+     EDUCATION
+════════════════════════ -->
+<section id="education">
+  <div class="container">
+    <div class="section-label fade-up">// education.log</div>
+    <h2 class="fade-up">Academic <span class="accent">Background</span></h2>
+    <div class="card fade-up">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-meta">
+            <span class="timeline-tag">Undergraduate</span>
+            <span class="timeline-date">2025 - 2029</span>
+          </div>
+          <div class="timeline-title">Bachelor of Computer Engineering (CEG)</div>
+          <div class="timeline-org">National University of Singapore · School of Computing</div>
+          <div class="timeline-desc">
+            Pursuing a degree in Computer Engineering with a focus on computer architecture, embedded systems, and systems programming. The CEG curriculum bridges hardware and software, from digital logic design to operating systems.
+          </div>
+        </div>
+        <div class="timeline-item" style="margin-bottom: 0;">
+          <div class="timeline-meta">
+            <span class="timeline-tag">A Levels</span>
+            <span class="timeline-date">Jan 2021 - Dec 2022</span>
+          </div>
+          <div class="timeline-title">GCE A-Level Certificate</div>
+          <div class="timeline-org">Anderson Serangoon Junior College</div>
+          <div class="timeline-desc">
+            Completed A-Levels with active involvement in school life. Served as EXCO member of Co-Curricular Activity, demonstrating leadership and organisational skills alongside academic achievement.
+          </div>
+        </div>
       </div>
     </div>
-    <h2 class="note-view-title" id="note-view-title"></h2>
-    <div class="note-body" id="note-view-body"></div>
-    <hr class="note-divider"/>
-    <footer style="font-size:0.71rem;color:var(--faint);letter-spacing:0.04em;opacity:0;animation:fadeUp 0.35s 0.3s forwards;">© 2025 Justin Ong</footer>
   </div>
+</section>
 
-</div><!-- /wrapper -->
-
-<!-- Konami overlay -->
-<div id="konami-overlay">
-  <div class="konami-terminal">
-    <div class="konami-header">cheat code detected</div>
-    <div class="konami-code-display">↑ ↑ ↓ ↓ ← → ← → B A</div>
-    <div class="konami-msg">
-      <span class="prompt">$</span>you found it.<br/>
-      <span class="prompt">$</span>not sure what you expected,<br/>
-      <span class="prompt">$</span>but here we are.
+<!-- ════════════════════════
+     SKILLS
+════════════════════════ -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label fade-up">// skills.inventory</div>
+    <h2 class="fade-up">Technical <span class="accent">Expertise</span></h2>
+    <div class="skills-grid">
+      <div class="skill-card fade-up" data-level="88">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <div class="skill-name">C Programming</div>
+        <div class="skill-level">Advanced · Systems & Embedded</div>
+        <div class="skill-bar"><div class="skill-fill"></div></div>
+      </div>
+      <div class="skill-card fade-up" data-level="82">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="2" x2="12" y2="22"/><path d="M2 8.5l10 7 10-7"/></svg>
+        </div>
+        <div class="skill-name">C++</div>
+        <div class="skill-level">Advanced · Performance-Critical Systems</div>
+        <div class="skill-bar"><div class="skill-fill"></div></div>
+      </div>
+      <div class="skill-card fade-up" data-level="80">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+        <div class="skill-name">Baremetal Programming</div>
+        <div class="skill-level">Advanced · Hardware Interfacing</div>
+        <div class="skill-bar"><div class="skill-fill"></div></div>
+      </div>
+      <div class="skill-card fade-up" data-level="72">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="1"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div class="skill-name">Microcontrollers</div>
+        <div class="skill-level">Intermediate · Embedded Systems</div>
+        <div class="skill-bar"><div class="skill-fill"></div></div>
+      </div>
     </div>
-    <button class="konami-close" onclick="closeKonami()">[ close ]</button>
   </div>
-</div>
-<div id="konami-progress">
-  <div class="kp-dot" id="kp0"></div><div class="kp-dot" id="kp1"></div>
-  <div class="kp-dot" id="kp2"></div><div class="kp-dot" id="kp3"></div>
-  <div class="kp-dot" id="kp4"></div><div class="kp-dot" id="kp5"></div>
-  <div class="kp-dot" id="kp6"></div><div class="kp-dot" id="kp7"></div>
-  <div class="kp-dot" id="kp8"></div><div class="kp-dot" id="kp9"></div>
-</div>
-<div id="konami-hint">↑↑↓↓←→←→BA</div>
+</section>
 
+<!-- ════════════════════════
+     AWARDS
+════════════════════════ -->
+<section id="awards">
+  <div class="container">
+    <div class="section-label fade-up">// achievements.txt</div>
+    <h2 class="fade-up">Honours &amp; <span class="accent">Awards</span></h2>
+    <div class="awards-grid">
+      <div class="card award-card fade-up">
+        <div class="award-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div>
+          <div class="award-issuer">Airbus · Oct 2025</div>
+          <div class="award-title">Future of Flight Challenge -2nd Place</div>
+          <div class="award-desc">Competed as part of a team from NUS in the Airbus Future of Flight Challenge 2025, earning 2nd place among finalists.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     PERSONAL PROJECTS
+════════════════════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label fade-up">// projects.build</div>
+    <h2 class="fade-up">Personal <span class="accent">Projects</span></h2>
+    <div class="projects-grid">
+
+      <div class="card project-card fade-up">
+        <div class="project-header">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="project-links">
+            <a href="https://jong999arblx-stack.github.io/ShelfLine.com/" target="_blank" rel="noopener" class="project-link" aria-label="Visit ShelfLine">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="project-name">ShelfLine</div>
+        <div class="project-desc">A collection of web apps and android app for warehouse tracking and management. Built to streamline warehouse workflows with OCR and smart optimisation algorithms. Works locally on an android devide or paired with a database server. Done for the NUS Orbital module for computing students.</div>
+        <div class="project-tags">
+          <span class="project-tag">Web App</span>
+          <span class="project-tag">Flutter</span>
+          <span class="project-tag">Android</span>
+          <span class="project-tag">Servers and Databases</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     GITHUB ACTIVITY
+════════════════════════ -->
+<section id="github">
+  <div class="container">
+    <div class="section-label fade-up">// github.activity</div>
+    <h2 class="fade-up">GitHub <span class="accent">Activity</span></h2>
+    <div class="github-grid">
+
+      <!-- Contribution Chart -->
+      <div class="card fade-up">
+        <div style="margin-bottom:16px;">
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.95rem;">Contribution Activity</span>
+        </div>
+        <div class="github-stats-row" id="gh-stats-row">
+          <div class="gh-stat">
+            <div class="gh-stat-val" id="gh-total">—</div>
+            <div class="gh-stat-label">Total Contributions</div>
+          </div>
+          <div class="gh-stat">
+            <div class="gh-stat-val" id="gh-streak">—</div>
+            <div class="gh-stat-label">Current Streak</div>
+          </div>
+          <div class="gh-stat">
+            <div class="gh-stat-val" id="gh-repos">—</div>
+            <div class="gh-stat-label">Public Repos</div>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="contrib-chart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     CONTACT
+════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner fade-up">
+      <div class="section-label" style="justify-content:center; display:flex;">// contact me</div>
+      <h2>Let's <span class="accent">Connect</span></h2>
+      <p>Whether you have an exciting project, a research collaboration, or just want to talk tech -my inbox is always open.</p>
+      <div class="contact-links">
+        <a href="mailto:ongjunyin@gmail.com" class="contact-btn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          ongjunyin@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/justin-ong-a69382229/" target="_blank" rel="noopener" class="contact-btn secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/Jong-9999" target="_blank" rel="noopener" class="contact-btn gh">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <span>Justin Ong · Computer Engineering, NUS · Singapore</span><br>
+  <span style="opacity:.4; margin-top:4px; display:block;">Justin Ong. © 2025</span>
+</footer>
+
+<!-- ════════════════════════
+     SCRIPTS
+════════════════════════ -->
 <script>
-// ══════════════════════════════════════════
-//  NOTES DATA — edit this array to add notes
-// ══════════════════════════════════════════
-const NOTES = [
-  {
-    id: 'bare-metal-uart',
-    date: '2025-04-10',
-    tag: 'embedded',
-    title: 'Bare-metal UART on STM32 without HAL',
-    body: `
-      <p>Most tutorials reach straight for the HAL and call it a day. That works, but I wanted to understand what was actually happening at the register level. Here's what I learned setting up UART on an STM32F4 from scratch.</p>
-      <h2>Clock setup</h2>
-      <p>Before touching the USART peripheral you need to enable its clock in the RCC register. For USART2 on APB1 that means setting bit 17 of <code>RCC->APB1ENR</code>. Miss this step and nothing works — no error, just silence.</p>
-      <pre><code>RCC->APB1ENR |= (1 &lt;&lt; 17); // enable USART2 clock
-RCC->AHB1ENR |= (1 &lt;&lt; 0);  // enable GPIOA clock</code></pre>
-      <h2>GPIO alternate function</h2>
-      <p>PA2 and PA3 are USART2 TX/RX. Set them to alternate function mode (10 in MODER), push-pull output, and assign AF7 in the AFR register.</p>
-      <h2>Baud rate</h2>
-      <p>The USART BRR register takes a divisor, not the raw baud rate. Calculate it as <code>f_CK / baud</code> where <code>f_CK</code> is the peripheral clock. At 16 MHz system clock with APB1 not divided, a 9600 baud rate gives a BRR value of 1667.</p>
-      <blockquote>The HAL hides this calculation inside <code>HAL_UART_Init()</code>. Once you see it you'll never forget why baud rates need to match on both ends.</blockquote>
-      <p>Once you get bytes flying across without a single HAL call, the abstraction layers start feeling a lot less magical and a lot more legible.</p>
-    `
-  },
-  {
-  id: 'eg1311-robot',
-  date: '2026-04-22',
-  tag: 'embedded',
-  title: 'EG1311: building the lightest robot possible',
-  body: `
-    <p>EG1311 is one of those classes where the constraints define everything. The task sounds simple on paper: build a robot using an Arduino Uno, an SG90 servo, and a set of geared motors. In practice, it turns into a game of grams.</p>
+/* ── Circuit Canvas Animation ── */
+(function () {
+  const canvas = document.getElementById('circuit-canvas');
+  const ctx = canvas.getContext('2d');
+  let nodes = [], traces = [], signals = [], binaryChars = [];
+  let animId;
 
-    <h2>The goal</h2>
-    <p>The objective isn’t just to make a working robot — it’s to make the <em>lightest</em> one possible while still completing the task. That shifts your thinking immediately. Every component stops being “necessary” and starts being “worth its weight”.</p>
-
-    <h2>Core components</h2>
-    <p>The baseline setup usually includes an <code>Arduino Uno</code>, one or more DC geared motors for movement, and an <code>SG90</code> servo for actuation. These parts are fixed, but everything around them is up for optimization.</p>
-
-    <h2>Where the weight actually is</h2>
-    <p>It’s rarely the microcontroller that kills you — it’s everything else. Wheels, chassis, mounting hardware, wiring, and especially prototyping tools add up quickly. A breadboard alone can weigh more than multiple critical components combined.</p>
-
-    <h2>Cutting weight aggressively</h2>
-    <p>One of the easiest wins is ditching heavy wheels. Laser cutting thin rimmed acrylic wheels gives you full control over thickness and diameter, and you can get them significantly lighter than off-the-shelf parts.</p>
-
-    <p>Geared motors are another target. Many come with multiple stages you don’t actually need. Removing unnecessary gears or even entire sections of the gearbox reduces both weight and rotational inertia — at the cost of torque, which you have to budget carefully.</p>
-
-    <p>The biggest shift is getting rid of the breadboard entirely. It’s convenient for prototyping, but completely unjustifiable in a weight-constrained build. Minimal wiring, and custom connections become the default.</p>
-
-    <blockquote>At some point you stop “building a robot” and start trimming it — every gram removed feels like progress.</blockquote>
-
-    <h2>Trade-offs</h2>
-    <p>Nothing comes for free. Lighter wheels might reduce traction. Fewer gear stages mean less torque. Removing structure can make the robot fragile. The challenge is finding the point where it’s just light enough without breaking or failing under load.</p>
-
-    <h2>What it teaches</h2>
-    <p>More than anything, the class forces you to think about efficiency in a physical sense. Not just code or algorithms, but material, structure, and necessity. You start questioning every component — and that mindset carries over to everything else you build.</p>
-
-    <p>By the end, the “best” robot isn’t the most complex one. It’s the one where nothing unnecessary remains.</p>
-  `
-}
-];
-
-// ══════════════════════════════════════════
-//  ROUTING
-// ══════════════════════════════════════════
-let currentPage = 'home';
-
-function showPage(page, noteId) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
-  // Update nav active state
-  document.getElementById('nav-home').classList.toggle('active', page === 'home');
-  document.getElementById('nav-notes').classList.toggle('active', page === 'notes' || page === 'note');
-
-  if (page === 'home') {
-    document.getElementById('page-home').classList.add('active');
-  } else if (page === 'notes') {
-    renderNotesList();
-    document.getElementById('page-notes').classList.add('active');
-  } else if (page === 'note' && noteId) {
-    renderNote(noteId);
-    document.getElementById('page-note').classList.add('active');
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
 
-  currentPage = page;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  function rand(min, max) { return Math.random() * (max - min) + min; }
 
-// ══════════════════════════════════════════
-//  RENDER NOTES LIST
-// ══════════════════════════════════════════
-function renderNotesList() {
-  const container = document.getElementById('notes-list-container');
-  if (!NOTES.length) {
-    container.innerHTML = '<div class="notes-empty">nothing here yet.</div>';
-    return;
-  }
-  container.innerHTML = NOTES.map(n => `
-    <div class="note-row" onclick="showPage('note', '${n.id}')">
-      <span class="note-row-date">${formatDate(n.date)}</span>
-      <span class="note-row-title">${n.title}</span>
-      <span class="note-row-tag">${n.tag}</span>
-    </div>
-  `).join('');
+  function init() {
+    nodes = []; traces = []; signals = []; binaryChars = [];
+    const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 18000));
 
-  // Re-trigger animation
-  container.style.animation = 'none';
-  container.offsetHeight; // reflow
-  container.style.animation = '';
-}
+    for (let i = 0; i < count; i++) {
+      nodes.push({
+        x: rand(0, canvas.width),
+        y: rand(0, canvas.height),
+        r: rand(1.2, 2.8),
+        phase: rand(0, Math.PI * 2),
+        speed: rand(0.008, 0.022)
+      });
+    }
 
-// ══════════════════════════════════════════
-//  RENDER SINGLE NOTE
-// ══════════════════════════════════════════
-function renderNote(id) {
-  const note = NOTES.find(n => n.id === id);
-  if (!note) { showPage('notes'); return; }
+    const maxDist = Math.min(canvas.width, canvas.height) * 0.28;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        if (Math.hypot(dx, dy) < maxDist && traces.length < 120) {
+          traces.push({ a: i, b: j, progress: 0, spd: rand(0.003, 0.008) });
+        }
+      }
+    }
 
-  document.getElementById('note-view-date').textContent = formatDate(note.date);
-  document.getElementById('note-view-tag').textContent = note.tag;
-  document.getElementById('note-view-title').textContent = note.title;
-  document.getElementById('note-view-body').innerHTML = note.body;
+    for (let i = 0; i < 12; i++) {
+      if (traces.length) {
+        signals.push({
+          ti: Math.floor(rand(0, traces.length)),
+          p: rand(0, 1),
+          spd: rand(0.004, 0.009)
+        });
+      }
+    }
 
-  // Reset animations by re-cloning children
-  ['note-view-title', 'note-view-body', 'note-view-date'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; }
-  });
-}
-
-function formatDate(iso) {
-  const [y, m, d] = iso.split('-');
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return `${months[+m-1]} ${+d}, ${y}`;
-}
-
-// ══════════════════════════════════════════
-//  THEME
-// ══════════════════════════════════════════
-function toggleTheme() {
-  const html = document.documentElement;
-  const dark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', dark ? 'light' : 'dark');
-  document.getElementById('theme-label').textContent = dark ? 'Dark' : 'Light';
-}
-
-// ══════════════════════════════════════════
-//  KONAMI
-// ══════════════════════════════════════════
-const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-let kidx = 0, kTimer = null;
-
-setTimeout(() => {
-  const hint = document.getElementById('konami-hint');
-  hint.classList.add('visible');
-  setTimeout(() => hint.classList.remove('visible'), 3500);
-}, 10000);
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === KONAMI[kidx]) {
-    clearTimeout(kTimer);
-    document.getElementById('konami-progress').classList.add('visible');
-    document.getElementById(`kp${kidx}`).classList.add('lit');
-    kidx++;
-    if (kidx === KONAMI.length) { setTimeout(triggerKonami, 150); return; }
-    kTimer = setTimeout(resetKonami, 2500);
-  } else {
-    resetKonami();
-    if (e.key === KONAMI[0]) {
-      kidx = 1;
-      document.getElementById('konami-progress').classList.add('visible');
-      document.getElementById('kp0').classList.add('lit');
-      kTimer = setTimeout(resetKonami, 2500);
+    const cols = Math.floor(canvas.width / 50) + 1;
+    for (let i = 0; i < cols; i++) {
+      binaryChars.push({
+        x: i * 50 + rand(-10, 10),
+        y: rand(-canvas.height, 0),
+        chars: Array.from({ length: Math.floor(rand(4, 12)) }, () => Math.random() > 0.5 ? '1' : '0'),
+        vy: rand(0.25, 0.6),
+        alpha: rand(0.04, 0.12),
+        size: rand(9, 13),
+        idx: 0,
+        timer: 0,
+        interval: Math.floor(rand(30, 90))
+      });
     }
   }
-});
 
-function resetKonami() {
-  kidx = 0;
-  document.getElementById('konami-progress').classList.remove('visible');
-  for (let i = 0; i < 10; i++) document.getElementById(`kp${i}`).classList.remove('lit');
-}
-function triggerKonami() {
-  resetKonami();
-  document.getElementById('konami-overlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeKonami() {
-  document.getElementById('konami-overlay').classList.remove('active');
-  document.body.style.overflow = '';
-}
-document.getElementById('konami-overlay').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('konami-overlay')) closeKonami();
-});
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeKonami(); });
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    /* traces */
+    for (const t of traces) {
+      t.progress = Math.min(1, t.progress + t.spd);
+      const a = nodes[t.a], b = nodes[t.b];
+      const ex = a.x + (b.x - a.x) * t.progress;
+      const ey = a.y + (b.y - a.y) * t.progress;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = 'rgba(0,212,255,0.12)';
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+    }
+
+    /* nodes */
+    for (const n of nodes) {
+      n.phase += n.speed;
+      const glow = (Math.sin(n.phase) + 1) / 2;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,212,255,${0.35 + glow * 0.55})`;
+      ctx.fill();
+      if (glow > 0.7) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,212,255,${0.04 * glow})`;
+        ctx.fill();
+      }
+    }
+
+    /* signals */
+    for (const s of signals) {
+      s.p += s.spd;
+      if (s.p > 1) { s.p = 0; s.ti = Math.floor(rand(0, traces.length)); }
+      const t = traces[s.ti];
+      if (!t) continue;
+      const a = nodes[t.a], b = nodes[t.b];
+      const x = a.x + (b.x - a.x) * s.p;
+      const y = a.y + (b.y - a.y) * s.p;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,212,255,0.95)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,212,255,0.15)';
+      ctx.fill();
+    }
+
+    /* binary rain */
+    ctx.font = `${12}px 'JetBrains Mono', monospace`;
+    for (const col of binaryChars) {
+      col.y += col.vy;
+      col.timer++;
+      if (col.timer >= col.interval) {
+        col.timer = 0;
+        col.idx = (col.idx + 1) % col.chars.length;
+      }
+      if (col.y > canvas.height + 100) {
+        col.y = rand(-200, -50);
+        col.x = rand(0, canvas.width);
+      }
+      ctx.fillStyle = `rgba(0,255,136,${col.alpha})`;
+      ctx.fillText(col.chars[col.idx], col.x, col.y);
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); cancelAnimationFrame(animId); init(); draw(); });
+  resize();
+  init();
+  draw();
+})();
+
+/* ── Typewriter ── */
+(function () {
+  const el = document.getElementById('typewriter');
+  const phrases = [
+    'Computer Engineer',
+    'Head Developer @ Apeiron',
+    'Baremetal Programmer',
+    'NUS CEG Student',
+    'Embedded Systems Dev'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+
+  function tick() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(tick, 2000); return; }
+      setTimeout(tick, 65);
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 400); return; }
+      setTimeout(tick, 38);
+    }
+  }
+  tick();
+})();
+
+/* ── Intersection Observer: fade-up & skill bars ── */
+(function () {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      if (e.target.classList.contains('skill-card')) {
+        const lvl = e.target.dataset.level || '75';
+        const fill = e.target.querySelector('.skill-fill');
+        if (fill) setTimeout(() => { fill.style.width = lvl + '%'; }, 150);
+      }
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+})();
+
+/* ── Active nav link ── */
+(function () {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => io.observe(s));
+})();
+
+/* ── GitHub API ── */
+(function () {
+  const USERNAME = 'Jong-9999';
+
+  function getMonday(d) {
+    const date = new Date(d);
+    const day = date.getDay();
+    date.setDate(date.getDate() - day + (day === 0 ? -6 : 1));
+    return date;
+  }
+
+  function toDateStr(d) {
+    return d.toISOString().slice(0, 10);
+  }
+
+  /* Repos count — fetched first to avoid racing with contributions for rate limit */
+  async function loadRepos() {
+    try {
+      const res = await fetch(`https://api.github.com/users/${USERNAME}`);
+      if (!res.ok) throw new Error(`${res.status}`);
+      const u = await res.json();
+      if (typeof u.public_repos === 'number') {
+        document.getElementById('gh-repos').textContent = u.public_repos;
+      }
+    } catch {
+      /* Try counting from events as fallback */
+      try {
+        const res = await fetch(`https://api.github.com/users/${USERNAME}/events?per_page=100`);
+        if (!res.ok) throw new Error();
+        const events = await res.json();
+        const repos = new Set(events.map(e => e.repo && e.repo.name).filter(Boolean));
+        document.getElementById('gh-repos').textContent = repos.size + '+';
+      } catch {
+        document.getElementById('gh-repos').textContent = 'N/A';
+      }
+    }
+  }
+
+  /* Contribution chart via GitHub contributions API */
+  async function loadContributions() {
+    try {
+      const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${USERNAME}?y=last`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      const contribs = data.contributions || [];
+
+      /* Total */
+      const total = contribs.reduce((s, c) => s + c.count, 0);
+      document.getElementById('gh-total').textContent = total.toLocaleString();
+
+      /* Streak — descending from most recent, skip today if empty */
+      const contribMap = {};
+      contribs.forEach(c => { contribMap[c.date] = c.count; });
+      const today = toDateStr(new Date());
+      let streak = 0;
+      let cur = new Date();
+      /* If today has no contributions yet, start counting from yesterday */
+      if (!contribMap[today]) cur.setDate(cur.getDate() - 1);
+      while (true) {
+        const key = toDateStr(cur);
+        if (contribMap[key] > 0) { streak++; cur.setDate(cur.getDate() - 1); }
+        else break;
+      }
+      document.getElementById('gh-streak').textContent = streak;
+
+      /* Weekly chart — last 26 weeks */
+      const weeks = {};
+      contribs.forEach(c => {
+        const key = toDateStr(getMonday(new Date(c.date)));
+        weeks[key] = (weeks[key] || 0) + c.count;
+      });
+      const sorted = Object.entries(weeks).sort((a, b) => a[0] < b[0] ? -1 : 1);
+      const recent = sorted.slice(-26);
+      const labels = recent.map(([k]) => new Date(k).toLocaleDateString('en-SG', { month: 'short', day: 'numeric' }));
+      const values = recent.map(([, v]) => v);
+
+      renderChart(labels, values);
+    } catch {
+      loadContribFallback();
+    }
+  }
+
+  async function loadContribFallback() {
+    try {
+      const res = await fetch(`https://api.github.com/users/${USERNAME}/events?per_page=100`);
+      if (!res.ok) throw new Error();
+      const events = await res.json();
+      const weeks = {};
+      events.filter(e => e.type === 'PushEvent').forEach(e => {
+        const key = toDateStr(getMonday(new Date(e.created_at)));
+        weeks[key] = (weeks[key] || 0) + (e.payload.commits ? e.payload.commits.length : 0);
+      });
+      const sorted = Object.entries(weeks).sort((a, b) => a[0] < b[0] ? -1 : 1);
+      const labels = sorted.map(([k]) => new Date(k).toLocaleDateString('en-SG', { month: 'short', day: 'numeric' }));
+      const values = sorted.map(([, v]) => v);
+      renderChart(labels, values);
+    } catch {
+      document.getElementById('contrib-chart').parentElement.innerHTML =
+        '<p class="github-loading">Could not load contribution data.</p>';
+    }
+  }
+
+  function renderChart(labels, values) {
+    const ctx2 = document.getElementById('contrib-chart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Commits',
+          data: values,
+          backgroundColor: values.map(v => v > 0 ? 'rgba(0,212,255,0.55)' : 'rgba(0,212,255,0.08)'),
+          borderColor: 'rgba(0,212,255,0.8)',
+          borderWidth: 1,
+          borderRadius: 3,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: {
+          backgroundColor: '#0D1629',
+          borderColor: 'rgba(0,212,255,0.3)',
+          borderWidth: 1,
+          titleColor: '#00D4FF',
+          bodyColor: '#8892A4',
+          callbacks: { title: items => items[0].label, label: item => ` ${item.raw} commit${item.raw !== 1 ? 's' : ''}` }
+        }},
+        scales: {
+          x: {
+            ticks: { color: '#8892A4', font: { family: 'JetBrains Mono', size: 9 }, maxRotation: 45, maxTicksLimit: 8 },
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            border: { color: 'rgba(255,255,255,0.06)' }
+          },
+          y: {
+            ticks: { color: '#8892A4', font: { family: 'JetBrains Mono', size: 9 }, stepSize: 1 },
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            border: { color: 'rgba(255,255,255,0.06)' },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  /* Load repos first, then contributions after a short gap to space out API calls */
+  loadRepos().then(() => setTimeout(loadContributions, 300));
+})();
 </script>
 </body>
 </html>
