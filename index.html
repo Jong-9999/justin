@@ -861,11 +861,7 @@
 
 <!-- ── Navbar ── -->
 <nav>
-<<<<<<< HEAD
   <a class="nav-logo" href="#hero">Justin<span>.</span></a>
-=======
-  <a class="nav-logo" href="#hero">JO<span>.</span></a>
->>>>>>> 379dcaa473b7a1fd80f9526af22fb2534f77658e
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -921,13 +917,8 @@
             </div>
             <div class="chip-inner">
               <div class="chip-logo">NUS CEG</div>
-<<<<<<< HEAD
               <div class="chip-initials">Justin</div>
               <div class="chip-model">2025</div>
-=======
-              <div class="chip-initials">JO</div>
-              <div class="chip-model">REV 2025</div>
->>>>>>> 379dcaa473b7a1fd80f9526af22fb2534f77658e
             </div>
             <div class="chip-pins right">
               <div class="chip-pin" style="--i:0"></div>
@@ -1484,16 +1475,21 @@
       const total = contribs.reduce((s, c) => s + c.count, 0);
       document.getElementById('gh-total').textContent = total.toLocaleString();
 
-      /* Streak — descending from most recent, skip today if empty */
+      /* Streak — consecutive days with contributions; resets to 0 on a missed day */
       const contribMap = {};
       contribs.forEach(c => { contribMap[c.date] = c.count; });
-      const today = toDateStr(new Date());
+      /* Use local date parts — toISOString() is UTC and breaks in UTC+8 early morning */
+      function localDateStr(d) {
+        return d.getFullYear() + '-' +
+          String(d.getMonth() + 1).padStart(2, '0') + '-' +
+          String(d.getDate()).padStart(2, '0');
+      }
       let streak = 0;
-      let cur = new Date();
-      /* If today has no contributions yet, start counting from yesterday */
-      if (!contribMap[today]) cur.setDate(cur.getDate() - 1);
+      const cur = new Date();
+      /* If today has no contributions yet, don't penalise — start from yesterday */
+      if (!contribMap[localDateStr(cur)]) cur.setDate(cur.getDate() - 1);
       while (true) {
-        const key = toDateStr(cur);
+        const key = localDateStr(cur);
         if (contribMap[key] > 0) { streak++; cur.setDate(cur.getDate() - 1); }
         else break;
       }
